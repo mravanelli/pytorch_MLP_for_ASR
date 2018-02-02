@@ -43,7 +43,7 @@ steps/nnet/align.sh --nj 4 data-fmllr-tri3/test data/lang exp/dnn4_pretrain-dbn_
 ``` 
             
  
-#### 2. Split the feature lists in chunks. 
+#### 2. Split the feature lists into chunks. 
 Go to the *pytorch_MLP_for_ASR* folder.
 The *create_chunks.sh* script first shuffles or sorts (based on the sentence length) a kaldi feature list and then split it into a certain number of chunks. Shuffling a list could be good for feed-forward DNNs, while a sorted list can be useful for RNNs (not used here). The code also computes per-speaker and per-sentence CMVN.  
  
