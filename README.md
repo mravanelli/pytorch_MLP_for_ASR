@@ -6,7 +6,7 @@ This codes implements a basic *MLP* for *HMM-DNN* speech recognition. The MLP is
 
 - If not already done, install pytorch (http://pytorch.org/) and make sure that the installation works. As a first test, type “python” and, once entered into the console, type “import torch”. Make sure everything is fine. 
 
-- If not already done, install Kaldi (http://kaldi-asr.org/). As suggested during the installation, do not forget to add the path of Kaldi binaries into the .bashrc file. As a first test to check the installation, open  a bash shell, type “copy-feats” and make sure no errors appear.
+- If not already done, install Kaldi (http://kaldi-asr.org/). As suggested during the installation, do not forget to add the path of the Kaldi binaries into the *.bashrc file*. As a first test to check the installation, open  a bash shell, type “copy-feats” and make sure no errors appear.
 
 - Install kaldi-io package from the kaldi-io-for-python project (https://github.com/vesis84/kaldi-io-for-python). It provides a simple interface between kaldi and python. To install it:
 
