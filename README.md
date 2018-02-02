@@ -115,12 +115,24 @@ epoch 24 training_cost=0.949771, training_error=0.300328, dev_error=0.406893, te
 During the last epoch, the training script creates  a file *pout_test.ark* containing a set of likelihoods (i.e., normalized posterior probabilities) computed on the test sentences. These likelihoods can be used to feed the Kaldi decoder in this way:
 ``` 
 cd kaldi_decoding_scripts
+``` 
+For mfcc features:
 
+``` 
  ./decode_dnn_TIMIT.sh $KALDI_ROOT/egs/timit/s5/exp/tri3/graph \
  $KALDI_ROOT/egs/timit/s5/data/test/ \
  $KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn_ali \
  ../TIMIT_MLP_mfcc/decoding_test \
  "cat ../TIMIT_MLP_mfcc/pout_test.ark"
+``` 
+
+For fMLLR features
+``` 
+ ./decode_dnn_TIMIT.sh $KALDI_ROOT/egs/timit/s5/exp/tri3/graph \
+ $KALDI_ROOT/egs/timit/s5/data/test/ \
+ $KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn_ali \
+ ../TIMIT_MLP_fmllr/decoding_test \
+ "cat ../TIMIT_MLP_fmllr/pout_test.ark"
 ``` 
 
 #### 5. Check the results.
