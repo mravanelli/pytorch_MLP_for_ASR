@@ -55,20 +55,20 @@ The *create_chunks.sh* script first shuffles or sorts (based on the sentence len
  ``` 
  For fMLLR features run:
  ``` 
- ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data/data-fmllr-tri3/train fmllr_lists 5 train 0
- ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data/data-fmllr-tri3/dev fmllr_lists 1 dev 0
- ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data/data-fmllr-tri3/test fmllr_lists 1 test 0
+ ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data-fmllr-tri3/train fmllr_lists 5 train 0
+ ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data-fmllr-tri3/dev fmllr_lists 1 dev 0
+ ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data-fmllr-tri3/test fmllr_lists 1 test 0
  ``` 
 
 #### 3. Setup the Config file. 
 - Open the files *TIMIT_MLP_mfcc.cfg*,*TIMIT_MLP_fmllr.cfg* and modify them according to your paths.
-1) *tr_fea_scp* contains a list of the scp files created with *create_chunks.sh*. 
+1) *tr_fea_scp* contains a list of the list files created with *create_chunks.sh*. 
 2) *tr_fea_opts* allows users to easily add normalizations, derivatives and other types of feature processing  (see for instance *TIMIT_MLP_mfcc.cfg*). 
-3) *tr_lab_folder* is the kaldi folder containing the alignments (labels)
-4) *tr_lab_opts* allows users to derive context-dependent phone targets (when set to *ali-to-pdf*) or monophone targets (when set to *ali-to-phones --per-frame*)
-5) Modify the paths for dev and test data
+3) *tr_lab_folder* is the kaldi folder containing the alignments (labels).
+4) *tr_lab_opts* allows users to derive context-dependent phone targets (when set to *ali-to-pdf*) or monophone targets (when set to *ali-to-phones --per-frame*).
+5) Modify the paths for dev and test data.
 6) Feel free to modify the DNN architecture and the other optimization parameters according to your needs. 
-7) The required *count_file* in the config file (used to normalize the DNN posteriors before feeding the decoder) corresponds to the following file: *$KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn/ali_train_pdf.counts* (that is automatically created by Kaldi when running the TIMIT s5 recipe)
+7) The required *count_file* in the config file (used to normalize the DNN posteriors before feeding the decoder) corresponds to the following file: *$KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn/ali_train_pdf.counts* (that is automatically created by Kaldi when running the TIMIT s5 recipe).
 8) Use the option *use_cuda=1* for running the code on a GPU (strongly suggested).
 9) Use the option *save_gpumem=0* to save gpu memory. The code will be a little bit slower (about 10-15%), but it saves gpu memory. Use *save_gpumem=1* only if your GPU has more that 2GB of memory. 
 
