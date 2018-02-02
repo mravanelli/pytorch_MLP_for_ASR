@@ -4,7 +4,7 @@ This codes implements a basic MLP for HMM-DNN speech recognition. The MLP is tra
 ## Prerequisites:
  - Make sure that python is installed (the code is tested with python 2.7). Even though not mandatory, we suggest to use Anaconda (https://anaconda.org/anaconda/python).
 
-- If not already done, install pytorch (http://pytorch.org/) and make sure the installation is actually working. As a first test, type “python” and, once entered into the console, type “import torch”. Make sure everything is fine. 
+- If not already done, install pytorch (http://pytorch.org/) and make sure that the installation works. As a first test, type “python” and, once entered into the console, type “import torch”. Make sure everything is fine. 
 
 - If not already done, install Kaldi (http://kaldi-asr.org/). As suggested during the installation, do not forget to add the path of Kaldi binaries into the .bashrc file. As a first test to check the installation, open  a bash shell, type “copy-feats” and make sure no errors appear.
 
@@ -27,13 +27,13 @@ This step is necessary to  derive features and labels later used to train the ML
 - go to *$KALDI_ROOT/egs/timit/s5*.
 - run the script *run.sh*. Make sure everything works fine. Please, also run the Karel’s DNN baseline using  “$KALDI_ROOT/egs/timit/s5/local/nnet/run_dnn.sh”.
 - Compute the alignments for test and dev data with the following commands:
-If you wanna use tri3 alignments type:
+If you wanna use tri3 alignments, type:
 ``` 
 steps/align_fmllr.sh --nj 4 data/dev data/lang exp/tri3 exp/tri3_ali_dev
 
 steps/align_fmllr.sh --nj 4 data/test data/lang exp/tri3 exp/tri3_ali_test
 ```
-If you wanna use dnn alignments (as suggested) type:
+If you wanna use dnn alignments (as suggested), type:
 ``` 
 steps/nnet/align.sh --nj 4 data-fmllr-tri3/dev data/lang exp/dnn4_pretrain-dbn_dnn exp/dnn4_pretrain-dbn_dnn_ali_dev
 
