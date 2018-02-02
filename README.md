@@ -25,15 +25,17 @@ The code has been tested with:
 #### 1. Run the Kaldi s5 baseline of TIMIT.  
 This step is necessary to  derive features and labels later used to train the MLP.  In particular: 
 - go to *$KALDI_ROOT/egs/timit/s5*.
-- run the script *run.sh*. Make sure everything works fine. Please, also run the Karel’s DNN baseline using  “$KALDI_ROOT/egs/timit/s5/local/nnet/run_dnn.sh”.
-- Compute the alignments for test and dev data with the following commands:
-If you wanna use tri3 alignments, type:
+- run the script *run.sh*. Make sure everything works fine. Please, also run the Karel’s DNN baseline using  *local/nnet/run_dnn.sh*.
+- Compute the alignments for test and dev data with the following commands.
+
+If you wanna use *tri3* alignments, type:
 ``` 
 steps/align_fmllr.sh --nj 4 data/dev data/lang exp/tri3 exp/tri3_ali_dev
 
 steps/align_fmllr.sh --nj 4 data/test data/lang exp/tri3 exp/tri3_ali_test
 ```
-If you wanna use dnn alignments (as suggested), type:
+
+If you wanna use *dnn* alignments (as suggested), type:
 ``` 
 steps/nnet/align.sh --nj 4 data-fmllr-tri3/dev data/lang exp/dnn4_pretrain-dbn_dnn exp/dnn4_pretrain-dbn_dnn_ali_dev
 
@@ -41,9 +43,9 @@ steps/nnet/align.sh --nj 4 data-fmllr-tri3/test data/lang exp/dnn4_pretrain-dbn_
 ``` 
             
  
-#### 2. Split the feature lists in  chunks. 
-Go to the "pytorch_MLP_for_ASR" folder.
-The "create_chunks.sh" script first shuffles or sorts (based on the sentence length) a kaldi feature list and then split it into a certain number of chunks. Shuffling a list could be good for feed-forward DNNs, while a sorted list can be useful for RNNs (not used here). The code also computes per-speaker and per-sentence CMVN.  
+#### 2. Split the feature lists in chunks. 
+Go to the *pytorch_MLP_for_ASR* folder.
+The *create_chunks.sh* script first shuffles or sorts (based on the sentence length) a kaldi feature list and then split it into a certain number of chunks. Shuffling a list could be good for feed-forward DNNs, while a sorted list can be useful for RNNs (not used here). The code also computes per-speaker and per-sentence CMVN.  
  
  For mfcc features run:
  ``` 
@@ -59,14 +61,14 @@ The "create_chunks.sh" script first shuffles or sorts (based on the sentence len
  ``` 
 
 #### 3. Setup the Config file. 
-- Open the file *TIMIT_MLP_mfcc.cfg*,*TIMIT_MLP_fmllr.cfg* and modify them according to your paths.
+- Open the files *TIMIT_MLP_mfcc.cfg*,*TIMIT_MLP_fmllr.cfg* and modify them according to your paths.
 1) *tr_fea_scp* contains a list of the scp files created with *create_chunks.sh*. 
 2) *tr_fea_opts* allows users to easily add normalizations, derivatives and other types of feature processing  (see for instance *TIMIT_MLP_mfcc.cfg*). 
 3) *tr_lab_folder* is the kaldi folder containing the alignments (labels)
 4) *tr_lab_opts* allows users to derive context-dependent phone targets (when set to *ali-to-pdf*) or monophone targets (when set to *ali-to-phones --per-frame*)
 5) Modify the paths for dev and test data
 6) Feel free to modify the DNN architecture and the other optimization parameters according to your needs. 
-7) The required *count_file* in the config file (used to normalize the DNN posteriors before feeding the decoder) corresponds to the following file: *$KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn/ali_train_pdf.counts* (that is automatically created by Kaldi when running s5 recipe)
+7) The required *count_file* in the config file (used to normalize the DNN posteriors before feeding the decoder) corresponds to the following file: *$KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn/ali_train_pdf.counts* (that is automatically created by Kaldi when running the TIMIT s5 recipe)
 8) Use the option *use_cuda=1* for running the code on a GPU (strongly suggested).
 9) Use the option *save_gpumem=0* to save gpu memory. The code will be a little bit slower (about 10-15%), but it saves gpu memory. Use *save_gpumem=1* only if your GPU has more that 2GB of memory. 
 
@@ -74,13 +76,14 @@ The "create_chunks.sh" script first shuffles or sorts (based on the sentence len
 #### 4. Train the DNN. 
 - To run DNN training type:
 ```
-python MLP_ASR --cfg TIMIT_mfcc.cfg
+python MLP_ASR.py --cfg TIMIT_mfcc.cfg
 ``` 
 or 
 ```
-python MLP_ASR --cfg TIMIT_fmllr.cfg
+python MLP_ASR.py --cfg TIMIT_fmllr.cfg
 ``` 
 
+Note that training process might take from 30 minutes to 1 hours to finish. 
 If everything is working fine, your output (for fMLLR features) should look like this:
 ``` 
 epoch 1 training_cost=3.185877, training_error=0.689695, dev_error=0.551222, test_error=0.546513, learning_rate=0.080000, execution_time(s)=122.376381
@@ -109,7 +112,7 @@ epoch 23 training_cost=0.953147, training_error=0.300761, dev_error=0.408330, te
 epoch 24 training_cost=0.949771, training_error=0.300328, dev_error=0.406893, test_error=0.415255, learning_rate=0.005000, execution_time(s)=81.138160
 ``` 
 #### 4. Kaldi Decoding.
-The training script creates (during the last epoch) a file *pout_test.ark* containing a set of likelihoods (i.e., normalized posterior probabilities) computed on the test sentences. These likelihoods can be used to feed the Kaldi decoder in this way:
+During the last epoch, the training script creates  a file *pout_test.ark* containing a set of likelihoods (i.e., normalized posterior probabilities) computed on the test sentences. These likelihoods can be used to feed the Kaldi decoder in this way:
 ``` 
 cd kaldi_decoding_scripts
 
@@ -127,11 +130,11 @@ cd kaldi_decoding_scripts
 mfcc features: PER=18.7%
 fMLLR features: PER=16.7%
 
-Note that, despite the simplicity of the MLP implemented here, the performance obtained with this implementation are slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  See for instance the file $KALDI_ROOT/egs/timit/s5/RESULTS$
+Note that, despite its simplicity, the performance obtained with this implementation is slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  For comparison purposes, see for instance the file $KALDI_ROOT/egs/timit/s5/RESULTS$.
 
 
 ## Reference:
-Please, cite my PhD thesis in you use the code:
+Please, cite my PhD thesis if you use this code:
 
 *[1] M. Ravanelli, "Deep Learning for Distant Speech Recognition", PhD Thesis, Unitn 2017*
 
