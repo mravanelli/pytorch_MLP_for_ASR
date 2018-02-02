@@ -1,5 +1,5 @@
 ## Introduction:
-This codes implements a basic MLP for HMM-DNN speech recognition. The MLP is trained with *pytorch*, while feature extraction, alignments, and decoding are performed with *Kaldi*. The current implementation supports dropout and batch normalization. An example for phoneme recognition using the standard TIMIT dataset is provided.
+This codes implements a basic *MLP* for *HMM-DNN* speech recognition. The MLP is trained with *pytorch*, while feature extraction, alignments, and decoding are performed with *Kaldi*. The current implementation supports dropout and batch normalization. An example for phoneme recognition using the standard TIMIT dataset is provided.
  
 ## Prerequisites:
  - Make sure that python is installed (the code is tested with python 2.7). Even though not mandatory, we suggest to use Anaconda (https://anaconda.org/anaconda/python).
@@ -12,7 +12,7 @@ This codes implements a basic MLP for HMM-DNN speech recognition. The MLP is tra
 
 1) run git clone https://github.com/vesis84/kaldi-io-for-python.git <kaldi-io-dir> 
 2) add PYTHONPATH=${PYTHONPATH}:<kaldi-io-dir> to $HOME/.bashrc 
-3) now type import kaldi_io from the python console and make sure the package is correctly imported.  You can find more info (including some reading and writing tests) on  https://github.com/vesis84/kaldi-io-for-python
+3) now type *import kaldi_io* from the python console and make sure the package is correctly imported.  You can find more info (including some reading and writing tests) on  https://github.com/vesis84/kaldi-io-for-python
 
  
 The code has been tested with:
@@ -76,11 +76,11 @@ The *create_chunks.sh* script first shuffles or sorts (based on the sentence len
 #### 4. Train the DNN. 
 - To run DNN training type:
 ```
-python MLP_ASR.py --cfg TIMIT_mfcc.cfg
+python MLP_ASR.py --cfg TIMIT_MLP_mfcc.cfg
 ``` 
 or 
 ```
-python MLP_ASR.py --cfg TIMIT_fmllr.cfg
+python MLP_ASR.py --cfg TIMIT_MLP_fmllr.cfg
 ``` 
 
 Note that training process might take from 30 minutes to 1 hours to finish. 
@@ -130,7 +130,7 @@ cd kaldi_decoding_scripts
 mfcc features: PER=18.7%
 fMLLR features: PER=16.7%
 
-Note that, despite its simplicity, the performance obtained with this implementation is slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  For comparison purposes, see for instance the file $KALDI_ROOT/egs/timit/s5/RESULTS$.
+Note that, despite its simplicity, the performance obtained with this implementation is slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  For comparison purposes, see for instance the file *$KALDI_ROOT/egs/timit/s5/RESULTS*.
 
 
 ## Reference:
