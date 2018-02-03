@@ -6,7 +6,7 @@ This codes implements a basic *MLP* for *HMM-DNN* speech recognition. The MLP is
 
 - If not already done, install pytorch (http://pytorch.org/) and make sure that the installation works. As a first test, type “python” and, once entered into the console, type “import torch”. Make sure everything is fine. 
 
-- If not already done, install Kaldi (http://kaldi-asr.org/). As suggested during the installation, do not forget to add the path of Kaldi binaries into the .bashrc file. As a first test to check the installation, open  a bash shell, type “copy-feats” and make sure no errors appear.
+- If not already done, install Kaldi (http://kaldi-asr.org/). As suggested during the installation, do not forget to add the path of the Kaldi binaries into the *.bashrc file*. As a first test to check the installation, open  a bash shell, type “copy-feats” and make sure no errors appear.
 
 - Install kaldi-io package from the kaldi-io-for-python project (https://github.com/vesis84/kaldi-io-for-python). It provides a simple interface between kaldi and python. To install it:
 
@@ -43,7 +43,7 @@ steps/nnet/align.sh --nj 4 data-fmllr-tri3/test data/lang exp/dnn4_pretrain-dbn_
 ``` 
             
  
-#### 2. Split the feature lists in chunks. 
+#### 2. Split the feature lists into chunks. 
 Go to the *pytorch_MLP_for_ASR* folder.
 The *create_chunks.sh* script first shuffles or sorts (based on the sentence length) a kaldi feature list and then split it into a certain number of chunks. Shuffling a list could be good for feed-forward DNNs, while a sorted list can be useful for RNNs (not used here). The code also computes per-speaker and per-sentence CMVN.  
  
@@ -55,20 +55,20 @@ The *create_chunks.sh* script first shuffles or sorts (based on the sentence len
  ``` 
  For fMLLR features run:
  ``` 
- ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data/data-fmllr-tri3/train fmllr_lists 5 train 0
- ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data/data-fmllr-tri3/dev fmllr_lists 1 dev 0
- ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data/data-fmllr-tri3/test fmllr_lists 1 test 0
+ ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data-fmllr-tri3/train fmllr_lists 5 train 0
+ ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data-fmllr-tri3/dev fmllr_lists 1 dev 0
+ ./create_chunks.sh $KALDI_ROOT/egs/timit/s5/data-fmllr-tri3/test fmllr_lists 1 test 0
  ``` 
 
 #### 3. Setup the Config file. 
 - Open the files *TIMIT_MLP_mfcc.cfg*,*TIMIT_MLP_fmllr.cfg* and modify them according to your paths.
-1) *tr_fea_scp* contains a list of the scp files created with *create_chunks.sh*. 
+1) *tr_fea_scp* contains a list of the list files created with *create_chunks.sh*. 
 2) *tr_fea_opts* allows users to easily add normalizations, derivatives and other types of feature processing  (see for instance *TIMIT_MLP_mfcc.cfg*). 
-3) *tr_lab_folder* is the kaldi folder containing the alignments (labels)
-4) *tr_lab_opts* allows users to derive context-dependent phone targets (when set to *ali-to-pdf*) or monophone targets (when set to *ali-to-phones --per-frame*)
-5) Modify the paths for dev and test data
+3) *tr_lab_folder* is the kaldi folder containing the alignments (labels).
+4) *tr_lab_opts* allows users to derive context-dependent phone targets (when set to *ali-to-pdf*) or monophone targets (when set to *ali-to-phones --per-frame*).
+5) Modify the paths for dev and test data.
 6) Feel free to modify the DNN architecture and the other optimization parameters according to your needs. 
-7) The required *count_file* in the config file (used to normalize the DNN posteriors before feeding the decoder) corresponds to the following file: *$KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn/ali_train_pdf.counts* (that is automatically created by Kaldi when running the TIMIT s5 recipe)
+7) The required *count_file* in the config file (used to normalize the DNN posteriors before feeding the decoder) corresponds to the following file: *$KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn/ali_train_pdf.counts* (that is automatically created by Kaldi when running the TIMIT s5 recipe).
 8) Use the option *use_cuda=1* for running the code on a GPU (strongly suggested).
 9) Use the option *save_gpumem=0* to save gpu memory. The code will be a little bit slower (about 10-15%), but it saves gpu memory. Use *save_gpumem=1* only if your GPU has more that 2GB of memory. 
 
@@ -76,46 +76,49 @@ The *create_chunks.sh* script first shuffles or sorts (based on the sentence len
 #### 4. Train the DNN. 
 - To run DNN training type:
 ```
-python MLP_ASR.py --cfg TIMIT_MLP_mfcc.cfg
+python MLP_ASR.py --cfg TIMIT_MLP_mfcc.cfg 2> log.log
 ``` 
 or 
 ```
-python MLP_ASR.py --cfg TIMIT_MLP_fmllr.cfg
+python MLP_ASR.py --cfg TIMIT_MLP_fmllr.cfg 2> log.log
 ``` 
 
 Note that training process might take from 30 minutes to 1 hours to finish. 
 If everything is working fine, your output (for fMLLR features) should look like this:
 ``` 
-epoch 1 training_cost=3.185877, training_error=0.689695, dev_error=0.551222, test_error=0.546513, learning_rate=0.080000, execution_time(s)=122.376381
-epoch 2 training_cost=1.942640, training_error=0.531165, dev_error=0.499130, test_error=0.496296, learning_rate=0.080000, execution_time(s)=98.377268
-epoch 3 training_cost=1.726837, training_error=0.486872, dev_error=0.479094, test_error=0.480323, learning_rate=0.080000, execution_time(s)=80.488474
-epoch 4 training_cost=1.605198, training_error=0.460752, dev_error=0.466708, test_error=0.467406, learning_rate=0.080000, execution_time(s)=80.552025
-epoch 5 training_cost=1.517380, training_error=0.441869, dev_error=0.457906, test_error=0.460688, learning_rate=0.080000, execution_time(s)=80.770670
-epoch 6 training_cost=1.446593, training_error=0.424615, dev_error=0.453285, test_error=0.453660, learning_rate=0.080000, execution_time(s)=80.582975
-epoch 7 training_cost=1.390792, training_error=0.412072, dev_error=0.448672, test_error=0.449844, learning_rate=0.080000, execution_time(s)=81.266987
-epoch 8 training_cost=1.341816, training_error=0.400947, dev_error=0.441144, test_error=0.441814, learning_rate=0.080000, execution_time(s)=80.780559
-epoch 9 training_cost=1.301799, training_error=0.391474, dev_error=0.438507, test_error=0.440588, learning_rate=0.080000, execution_time(s)=80.589483
-epoch 10 training_cost=1.265721, training_error=0.382258, dev_error=0.435233, test_error=0.438567, learning_rate=0.080000, execution_time(s)=80.757482
-epoch 11 training_cost=1.234330, training_error=0.375200, dev_error=0.434359, test_error=0.436927, learning_rate=0.080000, execution_time(s)=81.102308
-epoch 12 training_cost=1.204328, training_error=0.367166, dev_error=0.432048, test_error=0.433611, learning_rate=0.080000, execution_time(s)=80.633779
-epoch 13 training_cost=1.179567, training_error=0.361736, dev_error=0.430162, test_error=0.434388, learning_rate=0.080000, execution_time(s)=80.789723
-epoch 14 training_cost=1.154040, training_error=0.355597, dev_error=0.430750, test_error=0.433180, learning_rate=0.080000, execution_time(s)=80.880159
-epoch 15 training_cost=1.087669, training_error=0.337308, dev_error=0.415972, test_error=0.422594, learning_rate=0.040000, execution_time(s)=80.836763
-epoch 16 training_cost=1.054655, training_error=0.328579, dev_error=0.417336, test_error=0.423976, learning_rate=0.040000, execution_time(s)=79.909844
-epoch 17 training_cost=1.022706, training_error=0.320052, dev_error=0.412804, test_error=0.418415, learning_rate=0.020000, execution_time(s)=80.027892
-epoch 18 training_cost=1.004981, training_error=0.315107, dev_error=0.411277, test_error=0.418363, learning_rate=0.020000, execution_time(s)=80.182567
-epoch 19 training_cost=0.993245, training_error=0.311901, dev_error=0.410142, test_error=0.419330, learning_rate=0.020000, execution_time(s)=80.251891
-epoch 20 training_cost=0.984327, training_error=0.310019, dev_error=0.410796, test_error=0.416654, learning_rate=0.020000, execution_time(s)=81.954019
-epoch 21 training_cost=0.968733, training_error=0.305669, dev_error=0.408787, test_error=0.416550, learning_rate=0.010000, execution_time(s)=80.997200
-epoch 22 training_cost=0.960621, training_error=0.302933, dev_error=0.408011, test_error=0.415566, learning_rate=0.010000, execution_time(s)=80.916291
-epoch 23 training_cost=0.953147, training_error=0.300761, dev_error=0.408330, test_error=0.417154, learning_rate=0.010000, execution_time(s)=80.901808
-epoch 24 training_cost=0.949771, training_error=0.300328, dev_error=0.406893, test_error=0.415255, learning_rate=0.005000, execution_time(s)=81.138160
+epoch 1 training_cost=3.185270, training_error=0.690495, dev_error=0.549124, test_error=0.549172, learning_rate=0.080000, execution_time(s)=85.436095
+epoch 2 training_cost=1.950891, training_error=0.533513, dev_error=0.498461, test_error=0.499940, learning_rate=0.080000, execution_time(s)=78.238582
+epoch 3 training_cost=1.737371, training_error=0.489724, dev_error=0.474726, test_error=0.479321, learning_rate=0.080000, execution_time(s)=78.390865
+epoch 4 training_cost=1.610313, training_error=0.461962, dev_error=0.464242, test_error=0.465437, learning_rate=0.080000, execution_time(s)=78.282750
+epoch 5 training_cost=1.521487, training_error=0.442533, dev_error=0.455979, test_error=0.457632, learning_rate=0.080000, execution_time(s)=77.166886
+epoch 6 training_cost=1.452035, training_error=0.426761, dev_error=0.451179, test_error=0.453436, learning_rate=0.080000, execution_time(s)=77.064029
+epoch 7 training_cost=1.394820, training_error=0.413627, dev_error=0.443357, test_error=0.445354, learning_rate=0.080000, execution_time(s)=78.169549
+epoch 8 training_cost=1.347145, training_error=0.402646, dev_error=0.441773, test_error=0.444214, learning_rate=0.080000, execution_time(s)=77.795720
+epoch 9 training_cost=1.305390, training_error=0.392546, dev_error=0.437266, test_error=0.443972, learning_rate=0.080000, execution_time(s)=77.853706
+epoch 10 training_cost=1.269022, training_error=0.383710, dev_error=0.434375, test_error=0.442246, learning_rate=0.080000, execution_time(s)=78.647257
+epoch 11 training_cost=1.235830, training_error=0.375467, dev_error=0.431452, test_error=0.433421, learning_rate=0.080000, execution_time(s)=77.407901
+epoch 12 training_cost=1.205622, training_error=0.368032, dev_error=0.432220, test_error=0.434976, learning_rate=0.080000, execution_time(s)=78.074666
+epoch 13 training_cost=1.132139, training_error=0.348587, dev_error=0.419605, test_error=0.423768, learning_rate=0.040000, execution_time(s)=77.901673
+epoch 14 training_cost=1.098085, training_error=0.339950, dev_error=0.418413, test_error=0.423302, learning_rate=0.040000, execution_time(s)=78.078263
+epoch 15 training_cost=1.079947, training_error=0.335365, dev_error=0.418103, test_error=0.424390, learning_rate=0.040000, execution_time(s)=77.930880
+epoch 16 training_cost=1.042311, training_error=0.325323, dev_error=0.412053, test_error=0.417673, learning_rate=0.020000, execution_time(s)=78.131381
+epoch 17 training_cost=1.025281, training_error=0.320353, dev_error=0.413433, test_error=0.418553, learning_rate=0.020000, execution_time(s)=78.066443
+epoch 18 training_cost=1.004788, training_error=0.314823, dev_error=0.408852, test_error=0.415479, learning_rate=0.010000, execution_time(s)=79.046657
+epoch 19 training_cost=0.995931, training_error=0.312059, dev_error=0.409269, test_error=0.414081, learning_rate=0.010000, execution_time(s)=77.593635
+epoch 20 training_cost=0.985299, training_error=0.309571, dev_error=0.407089, test_error=0.412613, learning_rate=0.005000, execution_time(s)=78.187198
+epoch 21 training_cost=0.980231, training_error=0.308210, dev_error=0.406648, test_error=0.412423, learning_rate=0.005000, execution_time(s)=78.114028
+epoch 22 training_cost=0.977153, training_error=0.307378, dev_error=0.406378, test_error=0.413494, learning_rate=0.005000, execution_time(s)=78.196592
+epoch 23 training_cost=0.970285, training_error=0.305204, dev_error=0.405064, test_error=0.412578, learning_rate=0.002500, execution_time(s)=80.574895
+epoch 24 training_cost=0.968486, training_error=0.304418, dev_error=0.406182, test_error=0.412734, learning_rate=0.002500, execution_time(s)=78.166218
 ``` 
 #### 4. Kaldi Decoding.
 During the last epoch, the training script creates  a file *pout_test.ark* containing a set of likelihoods (i.e., normalized posterior probabilities) computed on the test sentences. These likelihoods can be used to feed the Kaldi decoder in this way:
 ``` 
 cd kaldi_decoding_scripts
+``` 
+For mfcc features:
 
+``` 
  ./decode_dnn_TIMIT.sh $KALDI_ROOT/egs/timit/s5/exp/tri3/graph \
  $KALDI_ROOT/egs/timit/s5/data/test/ \
  $KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn_ali \
@@ -123,12 +126,21 @@ cd kaldi_decoding_scripts
  "cat ../TIMIT_MLP_mfcc/pout_test.ark"
 ``` 
 
+For fMLLR features
+``` 
+ ./decode_dnn_TIMIT.sh $KALDI_ROOT/egs/timit/s5/exp/tri3/graph \
+ $KALDI_ROOT/egs/timit/s5/data/test/ \
+ $KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn_ali \
+ ../TIMIT_MLP_fmllr/decoding_test \
+ "cat ../TIMIT_MLP_fmllr/pout_test.ark"
+``` 
+
 #### 5. Check the results.
 - After that training and decoding phases are finished, you can go into the *kaldi_decoding_scripts* folder and run *./RESULTS* to check the system performance.  
  
 - If everything if fine, you should obtain  Phone Error Rates (PER%) similar to the following ones:
-mfcc features: PER=18.7%
-fMLLR features: PER=16.7%
+mfcc features: PER=18.0%
+fMLLR features: PER=16.8%
 
 Note that, despite its simplicity, the performance obtained with this implementation is slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  For comparison purposes, see for instance the file *$KALDI_ROOT/egs/timit/s5/RESULTS*.
 
