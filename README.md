@@ -1,17 +1,17 @@
 ## Introduction:
-This codes implements a basic *MLP* for *HMM-DNN* speech recognition. The MLP is trained with *pytorch*, while feature extraction, alignments, and decoding are performed with *Kaldi*. The current implementation supports dropout and batch normalization. An example for phoneme recognition using the standard TIMIT dataset is provided.
+This code implements a basic *MLP* for *HMM-DNN* speech recognition. The MLP is trained with *pytorch*, while feature extraction, alignments, and decoding are performed with *Kaldi*. The current implementation supports dropout and batch normalization. An example for phoneme recognition using the standard TIMIT dataset is provided.
  
 ## Prerequisites:
  - Make sure that python is installed (the code is tested with python 2.7). Even though not mandatory, we suggest to use Anaconda (https://anaconda.org/anaconda/python).
 
 - If not already done, install pytorch (http://pytorch.org/) and make sure that the installation works. As a first test, type “python” and, once entered into the console, type “import torch”. Make sure everything is fine. 
 
-- If not already done, install Kaldi (http://kaldi-asr.org/). As suggested during the installation, do not forget to add the path of the Kaldi binaries into the *.bashrc file*. As a first test to check the installation, open  a bash shell, type “copy-feats” and make sure no errors appear.
+- If not already done, install Kaldi (http://kaldi-asr.org/). As suggested during the installation, do not forget to add the path of the Kaldi binaries into *$HOME/.bashrc*. As a first test to check the installation, open  a bash shell, type “copy-feats” and make sure no errors appear.
 
-- Install kaldi-io package from the kaldi-io-for-python project (https://github.com/vesis84/kaldi-io-for-python). It provides a simple interface between kaldi and python. To install it:
+- Install *kaldi-io* package from the *kaldi-io-for-python* project (https://github.com/vesis84/kaldi-io-for-python). It provides a simple interface between kaldi and python. To install it:
 
 1) run git clone https://github.com/vesis84/kaldi-io-for-python.git <kaldi-io-dir> 
-2) add PYTHONPATH=${PYTHONPATH}:<kaldi-io-dir> to $HOME/.bashrc 
+2) add *PYTHONPATH=${PYTHONPATH}:<kaldi-io-dir>* to *$HOME/.bashrc* 
 3) now type *import kaldi_io* from the python console and make sure the package is correctly imported.  You can find more info (including some reading and writing tests) on  https://github.com/vesis84/kaldi-io-for-python
 
  
@@ -23,7 +23,7 @@ The code has been tested with:
 ## How to run a TIMIT experiment:
 
 #### 1. Run the Kaldi s5 baseline of TIMIT.  
-This step is necessary to  derive features and labels later used to train the MLP.  In particular: 
+This step is necessary to  compute features and labels later used to train the pytorch MLP.  In particular: 
 - go to *$KALDI_ROOT/egs/timit/s5*.
 - run the script *run.sh*. Make sure everything works fine. Please, also run the Karel’s DNN baseline using  *local/nnet/run_dnn.sh*.
 - Compute the alignments for test and dev data with the following commands.
@@ -62,19 +62,19 @@ The *create_chunks.sh* script first shuffles or sorts (based on the sentence len
 
 #### 3. Setup the Config file. 
 - Open the files *TIMIT_MLP_mfcc.cfg*,*TIMIT_MLP_fmllr.cfg* and modify them according to your paths.
-1) *tr_fea_scp* contains a list of the list files created with *create_chunks.sh*. 
+1) *tr_fea_scp* contains the list of features created with *create_chunks.sh*. 
 2) *tr_fea_opts* allows users to easily add normalizations, derivatives and other types of feature processing  (see for instance *TIMIT_MLP_mfcc.cfg*). 
 3) *tr_lab_folder* is the kaldi folder containing the alignments (labels).
 4) *tr_lab_opts* allows users to derive context-dependent phone targets (when set to *ali-to-pdf*) or monophone targets (when set to *ali-to-phones --per-frame*).
 5) Modify the paths for dev and test data.
 6) Feel free to modify the DNN architecture and the other optimization parameters according to your needs. 
-7) The required *count_file* in the config file (used to normalize the DNN posteriors before feeding the decoder) corresponds to the following file: *$KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn/ali_train_pdf.counts* (that is automatically created by Kaldi when running the TIMIT s5 recipe).
+7) The required *count_file* (used to normalize the DNN posteriors before feeding the decoder and automaticallt created by kadldi when running s5 recipe) can be found here: *$KALDI_ROOT/egs/timit/s5/exp/dnn4_pretrain-dbn_dnn/ali_train_pdf.counts*.
 8) Use the option *use_cuda=1* for running the code on a GPU (strongly suggested).
 9) Use the option *save_gpumem=0* to save gpu memory. The code will be a little bit slower (about 10-15%), but it saves gpu memory. Use *save_gpumem=1* only if your GPU has more that 2GB of memory. 
 
  
 #### 4. Train the DNN. 
-- To run DNN training type:
+- Type the following command to run DNN training :
 ```
 python MLP_ASR.py --cfg TIMIT_MLP_mfcc.cfg 2> log.log
 ``` 
@@ -135,16 +135,18 @@ For fMLLR features
 ``` 
 
 #### 5. Check the results.
-- After that training and decoding phases are finished, you can go into the *kaldi_decoding_scripts* folder and run *./RESULTS* to check the system performance.  
+- After that training and decoding phases are finished, you can go into the *pytorch_MLP_for_ASR* folder and run *./RESULTS* to check the system performance.  
  
-- If everything if fine, you should obtain  Phone Error Rates (PER%) similar to the following ones:
+- If everything if fine, you should obtain  *Phone Error Rates (PER%)* similar to the following ones:
+
 mfcc features: PER=18.0%
 fMLLR features: **PER=16.8%**
 
-You can take a look to these results here: *TIMIT_MLP_fmllr_reference* or *TIMIT_MLP_mfcc_reference*.
+For reference purposes, you can take a look to our results here: *TIMIT_MLP_fmllr_reference* or *TIMIT_MLP_mfcc_reference*.
+
 Note that, despite its simplicity, the performance obtained with this implementation is slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  For comparison purposes, see for instance the file *$KALDI_ROOT/egs/timit/s5/RESULTS*. 
 
-Note also that small variations of PER with respect to the reference values (e.g, +/- 0.5 %) should be considered normal since due to a different DNN initialization on different systems. 
+Note also that small variations of PER with respect to these reference values (e.g, +/- 0.5 %) are normal (since due to a different DNN initialization). 
 
 
 ## Reference:
