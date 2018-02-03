@@ -140,9 +140,12 @@ For fMLLR features
  
 - If everything if fine, you should obtain  Phone Error Rates (PER%) similar to the following ones:
 mfcc features: PER=18.0%
-fMLLR features: PER=16.8%
+fMLLR features: **PER=16.8%**
 
-Note that, despite its simplicity, the performance obtained with this implementation is slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  For comparison purposes, see for instance the file *$KALDI_ROOT/egs/timit/s5/RESULTS*.
+You can take a look to these results here: *TIMIT_MLP_fmllr_reference* or *TIMIT_MLP_mfcc_reference*.
+Note that, despite its simplicity, the performance obtained with this implementation is slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  For comparison purposes, see for instance the file *$KALDI_ROOT/egs/timit/s5/RESULTS*. 
+
+Note also that small variations of PER with respect to the reference values (e.g, +/- 0.5 %) should be considered normal since due to a different DNN initialization on different systems. 
 
 
 ## Reference:
