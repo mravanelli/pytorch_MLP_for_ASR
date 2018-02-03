@@ -19,6 +19,7 @@ The code has been tested with:
 - Python  2.7 
 - Ubuntu 17.04
 - Pytorch 0.3
+- Cuda 9.1
  
 ## How to run a TIMIT experiment:
 
