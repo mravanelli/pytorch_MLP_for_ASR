@@ -137,10 +137,10 @@ For fMLLR features
 #### 5. Check the results.
 - After that training and decoding phases are finished, you can go into the *pytorch_MLP_for_ASR* folder and run *./RESULTS* to check the system performance.  
  
-- If everything if fine, you should obtain  *Phone Error Rates (PER%)* similar to the following ones:
+If everything if fine, you should obtain  *Phone Error Rates (PER%)* similar to the following ones:
 
-mfcc features: PER=18.0%
-fMLLR features: **PER=16.8%**
+- mfcc features: PER=18.0%
+- fMLLR features: **PER=16.8%**
 
 For reference purposes, you can take a look to our results here: *TIMIT_MLP_fmllr_reference* or *TIMIT_MLP_mfcc_reference*.
 
