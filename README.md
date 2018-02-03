@@ -86,30 +86,30 @@ python MLP_ASR.py --cfg TIMIT_MLP_fmllr.cfg 2> log.log
 Note that training process might take from 30 minutes to 1 hours to finish. 
 If everything is working fine, your output (for fMLLR features) should look like this:
 ``` 
-epoch 1 training_cost=3.384317, training_error=0.721703, dev_error=0.593744, test_error=0.590824, learning_rate=0.080000, execution_time(s)=84.179209
-epoch 2 training_cost=2.142425, training_error=0.572163, dev_error=0.543180, test_error=0.542955, learning_rate=0.080000, execution_time(s)=77.895830
-epoch 3 training_cost=1.898246, training_error=0.524813, dev_error=0.519763, test_error=0.525082, learning_rate=0.080000, execution_time(s)=78.218724
-epoch 4 training_cost=1.752852, training_error=0.495105, dev_error=0.505801, test_error=0.512097, learning_rate=0.080000, execution_time(s)=77.818596
-epoch 5 training_cost=1.646851, training_error=0.472181, dev_error=0.503417, test_error=0.505293, learning_rate=0.080000, execution_time(s)=77.857225
-epoch 6 training_cost=1.561680, training_error=0.453188, dev_error=0.493636, test_error=0.498075, learning_rate=0.080000, execution_time(s)=78.049902
-epoch 7 training_cost=1.489096, training_error=0.436349, dev_error=0.487659, test_error=0.493153, learning_rate=0.080000, execution_time(s)=78.819512
-epoch 8 training_cost=1.428991, training_error=0.422880, dev_error=0.484532, test_error=0.492272, learning_rate=0.080000, execution_time(s)=78.206443
-epoch 9 training_cost=1.374744, training_error=0.409588, dev_error=0.482670, test_error=0.491426, learning_rate=0.080000, execution_time(s)=78.222811
-epoch 10 training_cost=1.327537, training_error=0.398480, dev_error=0.477404, test_error=0.484519, learning_rate=0.080000, execution_time(s)=78.109824
-epoch 11 training_cost=1.285530, training_error=0.388687, dev_error=0.479894, test_error=0.486867, learning_rate=0.080000, execution_time(s)=78.121776
-epoch 12 training_cost=1.185874, training_error=0.362461, dev_error=0.463589, test_error=0.471257, learning_rate=0.040000, execution_time(s)=78.223371
-epoch 13 training_cost=1.141434, training_error=0.351222, dev_error=0.463875, test_error=0.473830, learning_rate=0.040000, execution_time(s)=78.133419
-epoch 14 training_cost=1.090926, training_error=0.336912, dev_error=0.456567, test_error=0.463417, learning_rate=0.020000, execution_time(s)=79.801834
-epoch 15 training_cost=1.062440, training_error=0.329381, dev_error=0.456584, test_error=0.464297, learning_rate=0.020000, execution_time(s)=77.320703
-epoch 16 training_cost=1.036693, training_error=0.322880, dev_error=0.453334, test_error=0.461120, learning_rate=0.010000, execution_time(s)=77.257489
-epoch 17 training_cost=1.019714, training_error=0.317592, dev_error=0.453555, test_error=0.460395, learning_rate=0.010000, execution_time(s)=77.273143
-epoch 18 training_cost=1.008937, training_error=0.315300, dev_error=0.451064, test_error=0.459048, learning_rate=0.005000, execution_time(s)=78.162366
-epoch 19 training_cost=0.998883, training_error=0.311941, dev_error=0.450746, test_error=0.459963, learning_rate=0.005000, execution_time(s)=78.229541
-epoch 20 training_cost=0.991998, training_error=0.310614, dev_error=0.450027, test_error=0.458771, learning_rate=0.002500, execution_time(s)=78.084323
-epoch 21 training_cost=0.987904, training_error=0.308987, dev_error=0.449358, test_error=0.457304, learning_rate=0.002500, execution_time(s)=78.315039
-epoch 22 training_cost=0.985269, training_error=0.308505, dev_error=0.448999, test_error=0.458305, learning_rate=0.002500, execution_time(s)=77.315663
-epoch 23 training_cost=0.982597, training_error=0.307779, dev_error=0.448672, test_error=0.457943, learning_rate=0.001250, execution_time(s)=77.309540
-epoch 24 training_cost=0.978345, training_error=0.306505, dev_error=0.447864, test_error=0.457114, learning_rate=0.000625, execution_time(s)=78.290923
+epoch 1 training_cost=3.185270, training_error=0.690495, dev_error=0.549124, test_error=0.549172, learning_rate=0.080000, execution_time(s)=85.436095
+epoch 2 training_cost=1.950891, training_error=0.533513, dev_error=0.498461, test_error=0.499940, learning_rate=0.080000, execution_time(s)=78.238582
+epoch 3 training_cost=1.737371, training_error=0.489724, dev_error=0.474726, test_error=0.479321, learning_rate=0.080000, execution_time(s)=78.390865
+epoch 4 training_cost=1.610313, training_error=0.461962, dev_error=0.464242, test_error=0.465437, learning_rate=0.080000, execution_time(s)=78.282750
+epoch 5 training_cost=1.521487, training_error=0.442533, dev_error=0.455979, test_error=0.457632, learning_rate=0.080000, execution_time(s)=77.166886
+epoch 6 training_cost=1.452035, training_error=0.426761, dev_error=0.451179, test_error=0.453436, learning_rate=0.080000, execution_time(s)=77.064029
+epoch 7 training_cost=1.394820, training_error=0.413627, dev_error=0.443357, test_error=0.445354, learning_rate=0.080000, execution_time(s)=78.169549
+epoch 8 training_cost=1.347145, training_error=0.402646, dev_error=0.441773, test_error=0.444214, learning_rate=0.080000, execution_time(s)=77.795720
+epoch 9 training_cost=1.305390, training_error=0.392546, dev_error=0.437266, test_error=0.443972, learning_rate=0.080000, execution_time(s)=77.853706
+epoch 10 training_cost=1.269022, training_error=0.383710, dev_error=0.434375, test_error=0.442246, learning_rate=0.080000, execution_time(s)=78.647257
+epoch 11 training_cost=1.235830, training_error=0.375467, dev_error=0.431452, test_error=0.433421, learning_rate=0.080000, execution_time(s)=77.407901
+epoch 12 training_cost=1.205622, training_error=0.368032, dev_error=0.432220, test_error=0.434976, learning_rate=0.080000, execution_time(s)=78.074666
+epoch 13 training_cost=1.132139, training_error=0.348587, dev_error=0.419605, test_error=0.423768, learning_rate=0.040000, execution_time(s)=77.901673
+epoch 14 training_cost=1.098085, training_error=0.339950, dev_error=0.418413, test_error=0.423302, learning_rate=0.040000, execution_time(s)=78.078263
+epoch 15 training_cost=1.079947, training_error=0.335365, dev_error=0.418103, test_error=0.424390, learning_rate=0.040000, execution_time(s)=77.930880
+epoch 16 training_cost=1.042311, training_error=0.325323, dev_error=0.412053, test_error=0.417673, learning_rate=0.020000, execution_time(s)=78.131381
+epoch 17 training_cost=1.025281, training_error=0.320353, dev_error=0.413433, test_error=0.418553, learning_rate=0.020000, execution_time(s)=78.066443
+epoch 18 training_cost=1.004788, training_error=0.314823, dev_error=0.408852, test_error=0.415479, learning_rate=0.010000, execution_time(s)=79.046657
+epoch 19 training_cost=0.995931, training_error=0.312059, dev_error=0.409269, test_error=0.414081, learning_rate=0.010000, execution_time(s)=77.593635
+epoch 20 training_cost=0.985299, training_error=0.309571, dev_error=0.407089, test_error=0.412613, learning_rate=0.005000, execution_time(s)=78.187198
+epoch 21 training_cost=0.980231, training_error=0.308210, dev_error=0.406648, test_error=0.412423, learning_rate=0.005000, execution_time(s)=78.114028
+epoch 22 training_cost=0.977153, training_error=0.307378, dev_error=0.406378, test_error=0.413494, learning_rate=0.005000, execution_time(s)=78.196592
+epoch 23 training_cost=0.970285, training_error=0.305204, dev_error=0.405064, test_error=0.412578, learning_rate=0.002500, execution_time(s)=80.574895
+epoch 24 training_cost=0.968486, training_error=0.304418, dev_error=0.406182, test_error=0.412734, learning_rate=0.002500, execution_time(s)=78.166218
 ``` 
 #### 4. Kaldi Decoding.
 During the last epoch, the training script creates  a file *pout_test.ark* containing a set of likelihoods (i.e., normalized posterior probabilities) computed on the test sentences. These likelihoods can be used to feed the Kaldi decoder in this way:
@@ -139,8 +139,8 @@ For fMLLR features
 - After that training and decoding phases are finished, you can go into the *kaldi_decoding_scripts* folder and run *./RESULTS* to check the system performance.  
  
 - If everything if fine, you should obtain  Phone Error Rates (PER%) similar to the following ones:
-mfcc features: PER=18.7%
-fMLLR features: PER=16.7%
+mfcc features: PER=18.0%
+fMLLR features: PER=16.8%
 
 Note that, despite its simplicity, the performance obtained with this implementation is slightly better than that achieved with the kaldi baselines (even without pre-training or sMBR).  For comparison purposes, see for instance the file *$KALDI_ROOT/egs/timit/s5/RESULTS*.
 
