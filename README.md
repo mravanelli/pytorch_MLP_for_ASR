@@ -76,40 +76,40 @@ The *create_chunks.sh* script first shuffles or sorts (based on the sentence len
 #### 4. Train the DNN. 
 - To run DNN training type:
 ```
-python MLP_ASR.py --cfg TIMIT_MLP_mfcc.cfg
+python MLP_ASR.py --cfg TIMIT_MLP_mfcc.cfg 2> log.log
 ``` 
 or 
 ```
-python MLP_ASR.py --cfg TIMIT_MLP_fmllr.cfg
+python MLP_ASR.py --cfg TIMIT_MLP_fmllr.cfg 2> log.log
 ``` 
 
 Note that training process might take from 30 minutes to 1 hours to finish. 
 If everything is working fine, your output (for fMLLR features) should look like this:
 ``` 
-epoch 1 training_cost=3.185877, training_error=0.689695, dev_error=0.551222, test_error=0.546513, learning_rate=0.080000, execution_time(s)=122.376381
-epoch 2 training_cost=1.942640, training_error=0.531165, dev_error=0.499130, test_error=0.496296, learning_rate=0.080000, execution_time(s)=98.377268
-epoch 3 training_cost=1.726837, training_error=0.486872, dev_error=0.479094, test_error=0.480323, learning_rate=0.080000, execution_time(s)=80.488474
-epoch 4 training_cost=1.605198, training_error=0.460752, dev_error=0.466708, test_error=0.467406, learning_rate=0.080000, execution_time(s)=80.552025
-epoch 5 training_cost=1.517380, training_error=0.441869, dev_error=0.457906, test_error=0.460688, learning_rate=0.080000, execution_time(s)=80.770670
-epoch 6 training_cost=1.446593, training_error=0.424615, dev_error=0.453285, test_error=0.453660, learning_rate=0.080000, execution_time(s)=80.582975
-epoch 7 training_cost=1.390792, training_error=0.412072, dev_error=0.448672, test_error=0.449844, learning_rate=0.080000, execution_time(s)=81.266987
-epoch 8 training_cost=1.341816, training_error=0.400947, dev_error=0.441144, test_error=0.441814, learning_rate=0.080000, execution_time(s)=80.780559
-epoch 9 training_cost=1.301799, training_error=0.391474, dev_error=0.438507, test_error=0.440588, learning_rate=0.080000, execution_time(s)=80.589483
-epoch 10 training_cost=1.265721, training_error=0.382258, dev_error=0.435233, test_error=0.438567, learning_rate=0.080000, execution_time(s)=80.757482
-epoch 11 training_cost=1.234330, training_error=0.375200, dev_error=0.434359, test_error=0.436927, learning_rate=0.080000, execution_time(s)=81.102308
-epoch 12 training_cost=1.204328, training_error=0.367166, dev_error=0.432048, test_error=0.433611, learning_rate=0.080000, execution_time(s)=80.633779
-epoch 13 training_cost=1.179567, training_error=0.361736, dev_error=0.430162, test_error=0.434388, learning_rate=0.080000, execution_time(s)=80.789723
-epoch 14 training_cost=1.154040, training_error=0.355597, dev_error=0.430750, test_error=0.433180, learning_rate=0.080000, execution_time(s)=80.880159
-epoch 15 training_cost=1.087669, training_error=0.337308, dev_error=0.415972, test_error=0.422594, learning_rate=0.040000, execution_time(s)=80.836763
-epoch 16 training_cost=1.054655, training_error=0.328579, dev_error=0.417336, test_error=0.423976, learning_rate=0.040000, execution_time(s)=79.909844
-epoch 17 training_cost=1.022706, training_error=0.320052, dev_error=0.412804, test_error=0.418415, learning_rate=0.020000, execution_time(s)=80.027892
-epoch 18 training_cost=1.004981, training_error=0.315107, dev_error=0.411277, test_error=0.418363, learning_rate=0.020000, execution_time(s)=80.182567
-epoch 19 training_cost=0.993245, training_error=0.311901, dev_error=0.410142, test_error=0.419330, learning_rate=0.020000, execution_time(s)=80.251891
-epoch 20 training_cost=0.984327, training_error=0.310019, dev_error=0.410796, test_error=0.416654, learning_rate=0.020000, execution_time(s)=81.954019
-epoch 21 training_cost=0.968733, training_error=0.305669, dev_error=0.408787, test_error=0.416550, learning_rate=0.010000, execution_time(s)=80.997200
-epoch 22 training_cost=0.960621, training_error=0.302933, dev_error=0.408011, test_error=0.415566, learning_rate=0.010000, execution_time(s)=80.916291
-epoch 23 training_cost=0.953147, training_error=0.300761, dev_error=0.408330, test_error=0.417154, learning_rate=0.010000, execution_time(s)=80.901808
-epoch 24 training_cost=0.949771, training_error=0.300328, dev_error=0.406893, test_error=0.415255, learning_rate=0.005000, execution_time(s)=81.138160
+epoch 1 training_cost=3.384317, training_error=0.721703, dev_error=0.593744, test_error=0.590824, learning_rate=0.080000, execution_time(s)=84.179209
+epoch 2 training_cost=2.142425, training_error=0.572163, dev_error=0.543180, test_error=0.542955, learning_rate=0.080000, execution_time(s)=77.895830
+epoch 3 training_cost=1.898246, training_error=0.524813, dev_error=0.519763, test_error=0.525082, learning_rate=0.080000, execution_time(s)=78.218724
+epoch 4 training_cost=1.752852, training_error=0.495105, dev_error=0.505801, test_error=0.512097, learning_rate=0.080000, execution_time(s)=77.818596
+epoch 5 training_cost=1.646851, training_error=0.472181, dev_error=0.503417, test_error=0.505293, learning_rate=0.080000, execution_time(s)=77.857225
+epoch 6 training_cost=1.561680, training_error=0.453188, dev_error=0.493636, test_error=0.498075, learning_rate=0.080000, execution_time(s)=78.049902
+epoch 7 training_cost=1.489096, training_error=0.436349, dev_error=0.487659, test_error=0.493153, learning_rate=0.080000, execution_time(s)=78.819512
+epoch 8 training_cost=1.428991, training_error=0.422880, dev_error=0.484532, test_error=0.492272, learning_rate=0.080000, execution_time(s)=78.206443
+epoch 9 training_cost=1.374744, training_error=0.409588, dev_error=0.482670, test_error=0.491426, learning_rate=0.080000, execution_time(s)=78.222811
+epoch 10 training_cost=1.327537, training_error=0.398480, dev_error=0.477404, test_error=0.484519, learning_rate=0.080000, execution_time(s)=78.109824
+epoch 11 training_cost=1.285530, training_error=0.388687, dev_error=0.479894, test_error=0.486867, learning_rate=0.080000, execution_time(s)=78.121776
+epoch 12 training_cost=1.185874, training_error=0.362461, dev_error=0.463589, test_error=0.471257, learning_rate=0.040000, execution_time(s)=78.223371
+epoch 13 training_cost=1.141434, training_error=0.351222, dev_error=0.463875, test_error=0.473830, learning_rate=0.040000, execution_time(s)=78.133419
+epoch 14 training_cost=1.090926, training_error=0.336912, dev_error=0.456567, test_error=0.463417, learning_rate=0.020000, execution_time(s)=79.801834
+epoch 15 training_cost=1.062440, training_error=0.329381, dev_error=0.456584, test_error=0.464297, learning_rate=0.020000, execution_time(s)=77.320703
+epoch 16 training_cost=1.036693, training_error=0.322880, dev_error=0.453334, test_error=0.461120, learning_rate=0.010000, execution_time(s)=77.257489
+epoch 17 training_cost=1.019714, training_error=0.317592, dev_error=0.453555, test_error=0.460395, learning_rate=0.010000, execution_time(s)=77.273143
+epoch 18 training_cost=1.008937, training_error=0.315300, dev_error=0.451064, test_error=0.459048, learning_rate=0.005000, execution_time(s)=78.162366
+epoch 19 training_cost=0.998883, training_error=0.311941, dev_error=0.450746, test_error=0.459963, learning_rate=0.005000, execution_time(s)=78.229541
+epoch 20 training_cost=0.991998, training_error=0.310614, dev_error=0.450027, test_error=0.458771, learning_rate=0.002500, execution_time(s)=78.084323
+epoch 21 training_cost=0.987904, training_error=0.308987, dev_error=0.449358, test_error=0.457304, learning_rate=0.002500, execution_time(s)=78.315039
+epoch 22 training_cost=0.985269, training_error=0.308505, dev_error=0.448999, test_error=0.458305, learning_rate=0.002500, execution_time(s)=77.315663
+epoch 23 training_cost=0.982597, training_error=0.307779, dev_error=0.448672, test_error=0.457943, learning_rate=0.001250, execution_time(s)=77.309540
+epoch 24 training_cost=0.978345, training_error=0.306505, dev_error=0.447864, test_error=0.457114, learning_rate=0.000625, execution_time(s)=78.290923
 ``` 
 #### 4. Kaldi Decoding.
 During the last epoch, the training script creates  a file *pout_test.ark* containing a set of likelihoods (i.e., normalized posterior probabilities) computed on the test sentences. These likelihoods can be used to feed the Kaldi decoder in this way:
