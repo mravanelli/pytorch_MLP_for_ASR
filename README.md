@@ -83,7 +83,6 @@ or
 python MLP_ASR.py --cfg TIMIT_MLP_fmllr.cfg 2> log.log
 ``` 
 
-Note that training process might take from 30 minutes to 1 hours to finish. 
 If everything is working fine, your output (for fMLLR features) should look like this:
 ``` 
 epoch 1 training_cost=3.185270, training_error=0.690495, dev_error=0.549124, test_error=0.549172, learning_rate=0.080000, execution_time(s)=85.436095
