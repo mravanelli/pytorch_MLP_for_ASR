@@ -67,7 +67,7 @@ class MLP(nn.Module):
         out = self.fco(out)
         pout=F.log_softmax(out,dim=1)
         pred=pout.max(dim=1)[1]
-        err =  sum((pred!=lab.long()).float())
+        err =  torch.sum((pred!=lab.long()).float())
         loss = self.criterion(out, lab.long()) # note that softmax is included in nn.CrossEntropyLoss()
         return [loss,err,pout,pred]
 
