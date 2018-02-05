@@ -9,7 +9,7 @@
 # This code implements with pytorch a basic MLP  for speech recognition. 
 # It exploits an interface to  kaldi for feature computation and decoding. 
 # How to run it:
-# python MLP_speech.py --cfg TIMIT_MLP.cfg
+# python MLP_ASR.py --cfg TIMIT_MLP_mfcc.cfg
 
 import kaldi_io
 import numpy as np
