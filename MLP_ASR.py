@@ -36,7 +36,7 @@ class MLP(nn.Module):
         
         curr_in_dim=input_dim
         for i in range(N_hid):
-         fc = nn.Linear(input_dim, hidden_dim) 
+         fc = nn.Linear(curr_in_dim, hidden_dim) 
          fc.weight = torch.nn.Parameter(torch.Tensor(hidden_dim,curr_in_dim).uniform_(-np.sqrt(0.01/(curr_in_dim+hidden_dim)),np.sqrt(0.01/(curr_in_dim+hidden_dim))))
          fc.bias = torch.nn.Parameter(torch.zeros(hidden_dim)) 
          curr_in_dim=hidden_dim
